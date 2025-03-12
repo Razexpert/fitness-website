@@ -1,0 +1,277 @@
+import zipfile
+import os
+import shutil
+
+# إنشاء مجلد المشروع
+project_folder = "/mnt/data/Fitness_Website"
+os.makedirs(project_folder, exist_ok=True)
+
+# إنشاء مجلدات للصور والفيديوهات وcss
+img_folder = os.path.join(project_folder, "images")
+video_folder = os.path.join(project_folder, "videos")
+css_folder = os.path.join(project_folder, "css")
+
+os.makedirs(img_folder, exist_ok=True)
+os.makedirs(video_folder, exist_ok=True)
+os.makedirs(css_folder, exist_ok=True)
+
+# نسخ شعار المستخدم
+shutil.copy("/mnt/data/AF58CD2F-F160-4788-978B-B0F3D998C99C-removebg-preview 2.png", os.path.join(img_folder, "logo.png"))
+
+# إضافة فيديوهات مؤقتة (نستخدم نفس الفيديو التجريبي عدة مرات للتوضيح)
+# فيديو أنيميشن مؤقت، لو عندك فيديو حقيقي ترفعه لاحقاً
+# راح نستخدم placeholder في الكود الآن، بدون ملفات فيديو حقيقية
+
+# محتوى ملف CSS الأساسي
+css_content = """
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f6fef9;
+    color: #333;
+    margin: 0;
+    padding: 0;
+}
+
+header {
+    background-color: #ffffff;
+    display: flex;
+    align-items: center;
+    padding: 10px 20px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+header img {
+    height: 50px;
+}
+
+h1, h2, h3 {
+    color: #2e7d32;
+}
+
+button, a.button {
+    background-color: #2e7d32;
+    color: #ffffff;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 8px;
+    text-decoration: none;
+    display: inline-block;
+    margin: 10px 0;
+}
+
+button:hover, a.button:hover {
+    background-color: #1b5e20;
+}
+
+footer {
+    background-color: #ffffff;
+    text-align: center;
+    padding: 10px;
+    position: relative;
+    bottom: 0;
+    width: 100%;
+    box-shadow: 0 -2px 5px rgba(0,0,0,0.1);
+}
+
+footer a {
+    margin: 0 10px;
+    text-decoration: none;
+    color: #2e7d32;
+}
+
+.container {
+    padding: 20px;
+    text-align: center;
+}
+
+video {
+    border-radius: 8px;
+    max-width: 100%;
+    height: auto;
+}
+
+table {
+    width: 80%;
+    margin: 20px auto;
+    border-collapse: collapse;
+}
+
+table, th, td {
+    border: 1px solid #ddd;
+}
+
+th, td {
+    padding: 12px;
+    text-align: center;
+}
+
+th {
+    background-color: #2e7d32;
+    color: white;
+}
+"""
+
+# إنشاء ملف CSS
+with open(os.path.join(css_folder, "style.css"), "w", encoding="utf-8") as f:
+    f.write(css_content)
+
+# محتوى صفحات HTML مع الربط
+html_pages = {
+    "login.html": """
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+    <meta charset="UTF-8">
+    <title>تسجيل الدخول / إنشاء حساب</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<header>
+    <img src="images/logo.png" alt="Logo">
+</header>
+<div class="container">
+    <h1>تسجيل الدخول أو إنشاء حساب</h1>
+    <form action="home.html">
+        <input type="email" placeholder="البريد الإلكتروني" required><br><br>
+        <input type="password" placeholder="كلمة المرور" required><br><br>
+        <button type="submit">تسجيل الدخول</button>
+    </form>
+</div>
+<footer>
+    <p>راسلنا: Razexpert69@gmail.com</p>
+    <a href="https://www.tiktok.com/@Raz_expert" target="_blank">تيكتوك</a>
+</footer>
+</body>
+</html>
+""",
+    "home.html": """
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+    <meta charset="UTF-8">
+    <title>الصفحة الرئيسية</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<header>
+    <img src="images/logo.png" alt="Logo">
+</header>
+<div class="container">
+    <h1>مرحبا بك!</h1>
+    <video controls autoplay muted>
+        <source src="videos/sample.mp4" type="video/mp4">
+        المتصفح لا يدعم عرض الفيديو.
+    </video>
+    <h2>جدولك للتضخيم في الجيم والمنزل اصبح بين يديك</h2>
+    <a href="calories.html" class="button">حساب السعرات الحرارية</a><br>
+    <a href="workout.html" class="button">هنا جدول تمارينك للتضخيم</a>
+</div>
+<footer>
+    <p>راسلنا: Razexpert69@gmail.com</p>
+    <a href="https://www.tiktok.com/@Raz_expert" target="_blank">تيكتوك</a>
+</footer>
+</body>
+</html>
+""",
+    "workout.html": """
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+    <meta charset="UTF-8">
+    <title>جدول التمارين</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<header>
+    <img src="images/logo.png" alt="Logo">
+</header>
+<div class="container">
+    <h1>جدول التمارين للتضخيم</h1>
+    <a href="day1.html" class="button">اليوم الأول - الصدر والتراي</a><br>
+    <a href="day2.html" class="button">اليوم الثاني - الظهر والباي</a><br>
+    <a href="day3.html" class="button">اليوم الثالث - الأرجل</a><br>
+    <a href="day4.html" class="button">اليوم الرابع - الأكتاف والكارديو</a><br>
+</div>
+<footer>
+    <p>راسلنا: Razexpert69@gmail.com</p>
+    <a href="https://www.tiktok.com/@Raz_expert" target="_blank">تيكتوك</a>
+</footer>
+</body>
+</html>
+""",
+    "day1.html": """
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+    <meta charset="UTF-8">
+    <title>اليوم الأول - الصدر والتراي</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<header>
+    <img src="images/logo.png" alt="Logo">
+</header>
+<div class="container">
+    <h1>اليوم الأول - الصدر والتراي</h1>
+    <table>
+        <tr><th>التمرين</th><th>المجموعات</th><th>التكرارات</th></tr>
+        <tr><td>بنش برس</td><td>4</td><td>12</td></tr>
+        <tr><td>تفتيح دمبل</td><td>4</td><td>12</td></tr>
+        <tr><td>ترايسبس كيبل</td><td>4</td><td>15</td></tr>
+    </table>
+    <video controls>
+        <source src="videos/sample.mp4" type="video/mp4">
+        المتصفح لا يدعم الفيديو.
+    </video>
+    <p>في هذا اليوم نركز على تضخيم عضلات الصدر باستخدام تمارين مركزة مع أوزان متدرجة، بالإضافة إلى تمارين الترايسبس لزيادة القوة والتحمل.</p>
+</div>
+<footer>
+    <p>راسلنا: Razexpert69@gmail.com</p>
+    <a href="https://www.tiktok.com/@Raz_expert" target="_blank">تيكتوك</a>
+</footer>
+</body>
+</html>
+""",
+    "food.html": """
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+    <meta charset="UTF-8">
+    <title>الجدول الغذائي</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<header>
+    <img src="images/logo.png" alt="Logo">
+</header>
+<div class="container">
+    <h1>جدول غذائي يناسب هدفك</h1>
+    <table>
+        <tr><th>اليوم</th><th>وجبة الفطور</th><th>الغداء</th><th>العشاء</th></tr>
+        <tr><td>الأحد</td><td>بيض + شوفان</td><td>دجاج مشوي + أرز</td><td>تونة + سلطة</td></tr>
+        <tr><td>الاثنين</td><td>لبنة + خبز أسمر</td><td>لحم مفروم + بطاطا</td><td>سمك مشوي + خضار</td></tr>
+    </table>
+</div>
+<footer>
+    <p>راسلنا: Razexpert69@gmail.com</p>
+    <a href="https://www.tiktok.com/@Raz_expert" target="_blank">تيكتوك</a>
+</footer>
+</body>
+</html>
+"""
+}
+
+# كتابة الصفحات في مجلد المشروع
+for filename, content in html_pages.items():
+    with open(os.path.join(project_folder, filename), "w", encoding="utf-8") as f:
+        f.write(content)
+
+# ضغط المجلد إلى ملف ZIP
+zip_filename = "/mnt/data/Fitness_Website.zip"
+with zipfile.ZipFile(zip_filename, 'w') as zipf:
+    for root, dirs, files in os.walk(project_folder):
+        for file in files:
+            zipf.write(os.path.join(root, file),
+                       os.path.relpath(os.path.join(root, file), project_folder))
+
+zip_filename
